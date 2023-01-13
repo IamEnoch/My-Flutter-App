@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/views/login_view.dart';
 import 'package:flutterapp/views/register_view.dart';
+import 'package:flutterapp/views/verify_email_view.dart';
 
 import 'firebase_options.dart';
 
@@ -28,29 +29,27 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
-      body: FutureBuilder(
-          future: Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform,
-          ),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                final user = FirebaseAuth.instance.currentUser;
-                final emailVerified = user?.emailVerified ?? false;
-                if (emailVerified) {
-                  print('You are a verified user');
+    return FutureBuilder(
+        future: Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        ),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              final user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                if (user.emailVerified) {
+                  print('Email is verified');
                 } else {
-                  print('You need to verify your email');
+                  return const VerifyEmailView();
                 }
-                return const Text('Done');
-              default:
-                return const Text('loading');
-            }
-          }),
-    );
+              } else {
+                return const LoginView();
+              }
+              return const Text('done');
+            default:
+              return const CircularProgressIndicator();
+          }
+        });
   }
 }
