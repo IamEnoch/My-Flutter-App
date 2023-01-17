@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/routes.dart';
+import 'package:flutterapp/services/auth/auth_exceptions.dart';
+import 'package:flutterapp/services/auth/auth_service.dart';
 import 'package:flutterapp/utils/show_error_dialog.dart';
-
-import '../firebase_options.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -38,9 +36,7 @@ class _LoginViewState extends State<LoginView> {
         title: const Text("Login"),
       ),
       body: FutureBuilder(
-          future: Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform,
-          ),
+          future: AuthService.firebase().initialize(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
@@ -67,13 +63,12 @@ class _LoginViewState extends State<LoginView> {
                           final email = _email.text;
                           final password = _password.text;
                           try {
-                            await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
+                            await AuthService.firebase().logIn(
                               email: email,
                               password: password,
                             );
-                            final user = FirebaseAuth.instance.currentUser;
-                            if (user?.emailVerified ?? false) {
+                            final user = AuthService.firebase().currentUser;
+                            if (user?.isEmailVerified ?? false) {
                               //user email is verified
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                 notesRoute,
@@ -86,32 +81,25 @@ class _LoginViewState extends State<LoginView> {
                                 (route) => false,
                               );
                             }
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'user-not-found') {
-                              await showErrorDialog(
-                                context,
-                                'User not found',
-                              );
-                            } else if (e.code == 'invalid-email') {
-                              await showErrorDialog(
-                                context,
-                                'Invalid email',
-                              );
-                            } else if (e.code == 'wrong-password') {
-                              await showErrorDialog(
-                                context,
-                                'Wrong password',
-                              );
-                            } else {
-                              await showErrorDialog(
-                                context,
-                                'Error: ${e.code}',
-                              );
-                            }
-                          } catch (e) {
+                          } on UserNotFoundAuthException {
                             await showErrorDialog(
                               context,
-                              e.toString(),
+                              'User not found',
+                            );
+                          } on InvalidEmailAuthException {
+                            await showErrorDialog(
+                              context,
+                              'Invalid email',
+                            );
+                          } on WrongPasswordAuthException {
+                            await showErrorDialog(
+                              context,
+                              'Wrong password',
+                            );
+                          } on GenericAuthException {
+                            await showErrorDialog(
+                              context,
+                              'Authentication error',
                             );
                           }
                         },
