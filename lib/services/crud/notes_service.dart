@@ -17,8 +17,12 @@ class NotesService {
   Future<DatabaseUser> getOrCreateUser({required String email}) async {
     try {
       final user = await getUser(email: email);
-    } on Exception catch (e) {
-      // TODO
+      return user;
+    } on CouldNotFindUserException {
+      final createdUser = await createUser(email: email);
+      return createdUser;
+    } catch (e) {
+      rethrow;
     }
   }
 
