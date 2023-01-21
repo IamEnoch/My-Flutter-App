@@ -7,6 +7,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' show join;
 
 class NotesService {
+  //making notes service singleton
+  static final NotesService _shared = NotesService._internalInstance();
+  NotesService._internalInstance();
+  factory NotesService() => _shared;
+
   Database? _db;
 
   List<DatabaseNote> _notes = [];
