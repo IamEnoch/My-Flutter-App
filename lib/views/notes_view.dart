@@ -5,6 +5,7 @@ import 'package:flutterapp/enums/menu_action.dart';
 import 'package:flutterapp/main.dart';
 import 'package:flutterapp/services/auth/auth_service.dart';
 import 'package:flutterapp/services/crud/notes_service.dart';
+import 'package:flutterapp/utils/show_logout_dialog.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
