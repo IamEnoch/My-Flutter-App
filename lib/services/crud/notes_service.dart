@@ -11,13 +11,12 @@ class NotesService {
   static final NotesService _shared = NotesService._internalInstance();
 
   //Ensure every new subscriber to the stream controller gets some(default) value
-  NotesService._internalInstance(){
-    _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
-      onListen: (() {
-        _notesStreamController.sink.add(_notes);
-      })
-    );
-  };
+  NotesService._internalInstance() {
+    _notesStreamController =
+        StreamController<List<DatabaseNote>>.broadcast(onListen: (() {
+      _notesStreamController.sink.add(_notes);
+    }));
+  }
   factory NotesService() => _shared;
 
   Database? _db;
