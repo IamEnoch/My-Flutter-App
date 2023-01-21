@@ -9,15 +9,22 @@ import 'package:path/path.dart' show join;
 class NotesService {
   //making notes service singleton
   static final NotesService _shared = NotesService._internalInstance();
-  NotesService._internalInstance();
+
+  //Ensure every new subscriber to the stream controller gets some(default) value
+  NotesService._internalInstance(){
+    _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
+      onListen: (() {
+        _notesStreamController.sink.add(_notes);
+      })
+    );
+  };
   factory NotesService() => _shared;
 
   Database? _db;
 
   List<DatabaseNote> _notes = [];
 
-  final _notesStreamController =
-      StreamController<List<DatabaseNote>>.broadcast();
+  late final StreamController<List<DatabaseNote>> _notesStreamController;
 
   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
