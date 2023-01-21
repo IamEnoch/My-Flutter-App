@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/routes.dart';
 import 'package:flutterapp/services/auth/auth_service.dart';
 import 'package:flutterapp/views/login_view.dart';
-import 'package:flutterapp/views/notes_view.dart';
+import 'package:flutterapp/views/notes/new_notes_view.dart';
+import 'package:flutterapp/views/notes/notes_view.dart';
 import 'package:flutterapp/views/register_view.dart';
 import 'package:flutterapp/views/verify_email_view.dart';
 
@@ -15,11 +16,13 @@ void main() {
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),
+      //routes definition
       routes: {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
         notesRoute: (context) => const NotesView(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
+        newNoteRoute: (context) => const NewNoteView(),
       },
     ),
   );
