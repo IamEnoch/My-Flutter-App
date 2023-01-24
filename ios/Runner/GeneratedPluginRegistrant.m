@@ -36,6 +36,12 @@
 @import path_provider_ios;
 #endif
 
+#if __has_include(<share_plus/FLTSharePlusPlugin.h>)
+#import <share_plus/FLTSharePlusPlugin.h>
+#else
+@import share_plus;
+#endif
+
 #if __has_include(<sqflite/SqflitePlugin.h>)
 #import <sqflite/SqflitePlugin.h>
 #else
@@ -50,6 +56,7 @@
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
+  [FLTSharePlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharePlusPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
 }
 
