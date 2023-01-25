@@ -11,28 +11,28 @@ class AuthLoadingState extends AuthState {
   const AuthLoadingState();
 }
 
-class AuthLoggedInState extends AuthState {
+class AuthStateLoggedIn extends AuthState {
   final AuthUser user;
 
-  const AuthLoggedInState(this.user);
+  const AuthStateLoggedIn(this.user);
 }
 
-class AuthLoggedInFailureState extends AuthState {
+class AuthStateLoggedInFailure extends AuthState {
   final Exception exception;
 
-  const AuthLoggedInFailureState(this.exception);
+  const AuthStateLoggedInFailure(this.exception);
 }
 
-class AuthNeedVerirficationState extends AuthState {
-  const AuthNeedVerirficationState();
+class AuthStateNeedVerirfication extends AuthState {
+  const AuthStateNeedVerirfication();
 }
 
-class AuthLoggedOutState extends AuthState {
-  const AuthLoggedOutState();
+class AuthStateLoggedOut extends AuthState {
+  const AuthStateLoggedOut();
 }
 
-class AuthLoggedOutFailureState extends AuthState {
+class AuthStateLoggedOutFailure extends AuthState {
   final Exception exception;
 
-  const AuthLoggedOutFailureState(this.exception);
+  const AuthStateLoggedOutFailure(this.exception);
 }
