@@ -7,8 +7,8 @@ abstract class AuthState {
 }
 
 //auth preocess loading state
-class AuthLoadingState extends AuthState {
-  const AuthLoadingState();
+class AuthStateLoading extends AuthState {
+  const AuthStateLoading();
 }
 
 class AuthStateLoggedIn extends AuthState {
