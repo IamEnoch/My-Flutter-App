@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterapp/constants/routes.dart';
 import 'package:flutterapp/services/auth/auth_exceptions.dart';
 import 'package:flutterapp/services/auth/auth_service.dart';
 import 'package:flutterapp/services/auth/bloc/auth_bloc.dart';
@@ -48,7 +47,7 @@ class _LoginViewState extends State<LoginView> {
           } else if (state.isLoading && closeDialog == null) {
             _clodeDialogHandle = showLoadingDialog(
               context: context,
-              text: 'Loading',
+              text: 'I am Loading...',
             );
           }
 
